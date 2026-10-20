@@ -63,7 +63,7 @@ CairoMakie.bracket!(pi/2, 1, 5pi/2, 1, offset = 5, text = "Period length", style
 CairoMakie.bracket!(10, 1.8, 10, 1.3, text = "Non-riemannian\nmethods", orientation = :up,
     rotation = 0, align = (:left, :center), textoffset = 4, linewidth = 1, color = :red, textcolor = :red)
 
-CairoMakie.bracket!(10, 0.6, 10, 0.2, text = "CG based\nRiemannian\nmethods", orientation = :up,
+CairoMakie.bracket!(10, 0.6, 10, 0.2, text = "CF based\nRiemannian\nmethods", orientation = :up,
     rotation = 0, align = (:left, :center), textoffset = 4, linewidth = 1, color = :blue, textcolor = :blue)
 
 f

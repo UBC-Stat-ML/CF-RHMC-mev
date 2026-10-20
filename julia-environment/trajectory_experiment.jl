@@ -1,7 +1,7 @@
 include("src/trajectory_utils.jl")
 
 #############################################################################
-# CG vs standard trajectory
+# CF vs standard trajectory
 #############################################################################
 
 target_name = :glm
@@ -14,7 +14,7 @@ seed = 6435
 n_steps = 500
 ss = 0.1
 
-# CG-RHMC
+# CF-RHMC
 z_vec_Diag, θ_mat_Diag, r_mat_Diag, energy_Diag, time_Diag, ns_diag, h_diag = generate_full_trajectory(target_test, :diag_rie, seed, n_steps, ss; cache = true, a = Inf);
 # RHMC
 z_vec_Diag2, θ_mat_Diag2, r_mat_Diag2, energy_Diag2, time_Diag2, ns_diag2, h_diag2 = generate_full_trajectory(target_test, :diag_rie, seed, n_steps, ss; cache = false, a = Inf);
@@ -24,7 +24,7 @@ z_vec_Diag2, θ_mat_Diag2, r_mat_Diag2, energy_Diag2, time_Diag2, ns_diag2, h_di
 # trajectory plot
 k = 1; l = 500; n = 4; m = 1; fsize = 9;
 plot(θ_mat_Diag2[k:l,m],θ_mat_Diag2[k:l,n], label = "Standard RHMC", lw = 2, color = 2, xlabel = "θ₁", ylabel = "θ₄")
-scatter!(θ_mat_Diag[k:l,m],θ_mat_Diag[k:l,n], label = "CG-RHMC", markersize=2, color = 1)
+scatter!(θ_mat_Diag[k:l,m],θ_mat_Diag[k:l,n], label = "CF-RHMC", markersize=2, color = 1)
 scatter!(θ_mat_Diag[k:k,m],θ_mat_Diag[k:k,n], marker = :star, 
 label = "Starting point", color = :yellow, markersize=8,
 xtickfontsize=fsize, ytickfontsize=fsize, legendfontsize=fsize+2, xguidefontsize=fsize+5, yguidefontsize=fsize+5)

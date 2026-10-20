@@ -49,7 +49,7 @@ m = 57
 m = 102
 density(chain_NRPT[:,m,:], label = "NRPT", lw = 2, linestyle = :dash, color = :black,
 xtickfontsize=10, ytickfontsize=10, legendfontsize=11)
-density!(chain_RNUTS[:,m,:], label = "CG-RNUTS", lw = 2, color = 1)
+density!(chain_RNUTS[:,m,:], label = "CF-RNUTS", lw = 2, color = 1)
 density!(chain_NUTS[:,m,:], label = "NUTS", linestyle = :dot, lw = 2, color = 2)
 
 # pair plots

@@ -7,7 +7,7 @@ using Plots.PlotMeasures: px
 ##################################################################
 
 # KS scatter plot
-function glm_KS_scatter_plot(;fn_end = ".png", folder = "prostate_small_10")
+function glm_KS_scatter_plot(;fn_end = ".pdf", folder = "prostate_small_10")
     # read results
     df_stats_NUTS = get_summary_df(folder,"output","summary_NUTS.csv")
     df_stats_RNUTS = get_summary_df(folder,"output","summary_RNUTS.csv")
@@ -20,11 +20,11 @@ function glm_KS_scatter_plot(;fn_end = ".png", folder = "prostate_small_10")
     p = scatter(log10.(ks_nuts), log10.(ks_rnuts), label = "",
     xlims = [-2.5,0], ylims = [-2.5,0], aspect_ratio = 1,
     xlabel = "Log₁₀ KS between NUTS and NRPT",
-    ylabel = "Log₁₀ KS between CG-RNUTS and NRPT",)
-    scatter!(log10.(ks_prostate_nuts[57:57]), log10.(ks_prostate_rnuts[57:57]), label = "", markercolor = :white, markersize=10)
-    scatter!(log10.(ks_prostate_nuts[57:57]), log10.(ks_prostate_rnuts[57:57]), label = "", markercolor = 1)
+    ylabel = "Log₁₀ KS between CF-RNUTS and NRPT",)
+    scatter!(log10.(ks_nuts[57:57]), log10.(ks_rnuts[57:57]), label = "", markercolor = :white, markersize=10)
+    scatter!(log10.(ks_nuts[57:57]), log10.(ks_rnuts[57:57]), label = "", markercolor = 1)
     plot!([-3,-0],[-3,-0],linestyle = :dash, label = "")
-    annotate!(-0.8, -1.0, Plots.text("Advantage to CG-RNUTS", 11, rotation = 45, :green))
+    annotate!(-0.8, -1.0, Plots.text("Advantage to CF-RNUTS", 11, rotation = 45, :green))
     annotate!(-1.0, -0.8, Plots.text("Advantage to NUTS", 11, rotation = 45, :red))
 
     path = joinpath(dirname(base_dir()), "deliverables", folder)
@@ -58,7 +58,7 @@ end
 
 # density pair plot
 function glm_pair_plots(chain_NRPT, chain_RNUTS, chain_NUTS, target, m, k;
-    fn_end = ".png", folder = "prostate_small_10", fsize = 12, layout_style = :vertical)
+    fn_end = ".pdf", folder = "prostate_small_10", fsize = 12, layout_style = :vertical)
     # get axis names
     xname = get_name_string(target,m)
     yname = get_name_string(target,k)
@@ -97,7 +97,7 @@ function glm_pair_plots(chain_NRPT, chain_RNUTS, chain_NUTS, target, m, k;
         dens_ylims = ylims(d_NUTS) # set ylims to that of NUTS
         d_NRPT = density(chain_NRPT[:,m,:], label = "NRPT", lw = 2, color = 1,
         xlims=[lx,ux],ylims=dens_ylims, xtickfontsize=fsize, ytickfontsize=fsize, legendfontsize=fsize+2, xguidefontsize=fsize+5, yguidefontsize=fsize+5)
-        d_RNUTS = density(chain_RNUTS[:,m,:], label = "CG-RNUTS", lw = 2, color = 2,
+        d_RNUTS = density(chain_RNUTS[:,m,:], label = "CF-RNUTS", lw = 2, color = 2,
         xlims=[lx,ux],ylims=dens_ylims, xtickfontsize=fsize, ytickfontsize=fsize, legendfontsize=fsize+2, xguidefontsize=fsize+5, yguidefontsize=fsize+5)
 
         s_NRPT = scatter(chain_NRPT[1:thin_NRPT:end,m,1],chain_NRPT[1:thin_NRPT:end,k,1],alpha = 0.15,
@@ -121,7 +121,7 @@ function glm_pair_plots(chain_NRPT, chain_RNUTS, chain_NUTS, target, m, k;
         xtickfontsize=fsize, ytickfontsize=fsize, legendfontsize=fsize+2, xguidefontsize=fsize+5, yguidefontsize=fsize+5)
         
         p_RNUTS = scatter(chain_RNUTS[1:thin_RNUTS:end,m,1],chain_RNUTS[1:thin_RNUTS:end,k,1],alpha = 0.15, color = 2,
-        xlims=[lx,ux],ylims=[ly,uy],xlabel = xname, ylabel = yname, label = "CG-RNUTS",
+        xlims=[lx,ux],ylims=[ly,uy],xlabel = xname, ylabel = yname, label = "CF-RNUTS",
         xtickfontsize=fsize, ytickfontsize=fsize, legendfontsize=fsize+2, xguidefontsize=fsize+5, yguidefontsize=fsize+5)
 
         p_NUTS = scatter(chain_NUTS[1:thin_NUTS:end,m,1],chain_NUTS[1:thin_NUTS:end,k,1],alpha = 0.15, color = 3,
@@ -139,7 +139,7 @@ function glm_pair_plots(chain_NRPT, chain_RNUTS, chain_NUTS, target, m, k;
 end
 
 # KS box plots
-function glm_scale_plots(;fn_end = ".png", folder = "glm_scale")
+function glm_scale_plots(;fn_end = ".pdf", folder = "glm_scale")
     # read results
     df_stats_NUTS = get_summary_df(folder,"output","summary_NUTS.csv")
     df_stats_RNUTS = get_summary_df(folder,"output","summary_RNUTS.csv")
@@ -147,7 +147,7 @@ function glm_scale_plots(;fn_end = ".png", folder = "glm_scale")
     # clean results
     df_all = vcat(df_stats_NUTS,df_stats_RNUTS)
     df_all.data[df_all.data .== "prostate_small"] .= "prostate"
-    df_all.metric[df_all.metric .== "diag_rie"] .= "CG-RNUTS"
+    df_all.metric[df_all.metric .== "diag_rie"] .= "CF-RNUTS"
     df_all.metric[df_all.metric .== "diagonal"] .= "NUTS"
     data_name_vec = []
     for i in eachindex(df_all.data)

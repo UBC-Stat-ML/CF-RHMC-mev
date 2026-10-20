@@ -1,4 +1,4 @@
-# CG-RHMC mev repo
+# CF-RHMC mev repo
 
 ## Prerequisite
 
